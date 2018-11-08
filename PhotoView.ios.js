@@ -21,6 +21,7 @@ export default class PhotoView extends Component {
             // Opaque type returned by require('./image.jpg')
             PropTypes.number
         ]),
+        pins: PropTypes.array,
         fadeDuration: PropTypes.number,
         minimumZoomScale: PropTypes.number,
         maximumZoomScale: PropTypes.number,
@@ -32,6 +33,7 @@ export default class PhotoView extends Component {
         onTap: PropTypes.func,
         onViewTap: PropTypes.func,
         onScale: PropTypes.func,
+        onPinClick: PropTypes.func,
         showsHorizontalScrollIndicator: PropTypes.bool,
         showsVerticalScrollIndicator: PropTypes.bool,
         ...ViewPropTypes
@@ -50,10 +52,9 @@ export default class PhotoView extends Component {
         }
 
         if (source && source.uri) {
-            var {onLoadStart, onLoad, onLoadEnd, onProgress, onTap, onViewTap, onScale, onError, ...props} = this.props;
+            var {onLoadStart, onLoad, onLoadEnd, onProgress, onTap, onViewTap, onScale, onPinClick, pins, ...props} = this.props;
 
             var nativeProps = {
-                onPhotoViewerError: onError,
                 onPhotoViewerLoadStart: onLoadStart,
                 onPhotoViewerLoad: onLoad,
                 onPhotoViewerLoadEnd: onLoadEnd,
@@ -61,8 +62,10 @@ export default class PhotoView extends Component {
                 onPhotoViewerTap: onTap,
                 onPhotoViewerViewTap: onViewTap,
                 onPhotoViewerScale: onScale,
+                onPinClicked: onPinClick,
                 ...props,
                 src: source,
+                pins: pins || [],
                 loadingIndicatorSrc: loadingIndicatorSource ? loadingIndicatorSource.uri : null,
             };
 
@@ -74,7 +77,6 @@ export default class PhotoView extends Component {
 
 var cfg = {
     nativeOnly: {
-        onPhotoViewerError: true,
         onPhotoViewerLoadStart: true,
         onPhotoViewerLoad: true,
         onPhotoViewerLoadEnd: true,
@@ -83,7 +85,9 @@ var cfg = {
         onPhotoViewerViewTap: true,
         onPhotoViewerScale: true,
         src: true,
-        loadingIndicatorSrc: true
+        loadingIndicatorSrc: true,
+        pins: true,
+        onPinClicked: true,
     }
 };
 
