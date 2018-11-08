@@ -11,6 +11,7 @@
 
 @property (nonatomic, strong) NSDictionary *source;
 @property (nonatomic, strong) NSDictionary *src;
+@property (nonatomic, strong) NSArray *pins;
 @property (nonatomic, strong) NSString *loadingIndicatorSrc;
 @property (nonatomic, assign) NSInteger scale;
 @property (nonatomic, assign) CGFloat minZoomScale;
@@ -18,7 +19,6 @@
 
 #pragma mark - Block
 
-@property (nonatomic, copy) RCTDirectEventBlock onPhotoViewerError;
 @property (nonatomic, copy) RCTDirectEventBlock onPhotoViewerScale;
 @property (nonatomic, copy) RCTBubblingEventBlock onPhotoViewerViewTap;
 @property (nonatomic, copy) RCTBubblingEventBlock onPhotoViewerTap;
@@ -26,6 +26,7 @@
 @property (nonatomic, copy) RCTDirectEventBlock onPhotoViewerLoad;
 @property (nonatomic, copy) RCTDirectEventBlock onPhotoViewerLoadEnd;
 @property (nonatomic, copy) RCTDirectEventBlock onPhotoViewerProgress;
+@property (nonatomic, copy) RCTDirectEventBlock onPinClicked;
 
 - (instancetype)initWithBridge:(RCTBridge *)bridge;
 
