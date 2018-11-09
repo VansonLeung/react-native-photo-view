@@ -91,10 +91,10 @@
         lbl2.tag = i + 20000;
         [self.photoImageView addSubview:lbl2];
 
-        UIButton * btn = [[UIButton alloc] init];
-        btn.tag = i + 10000;
-        [btn addTarget:self action:@selector(onPinCheckBtnEd:) forControlEvents:UIControlEventTouchUpInside];
-        [self.photoImageView addSubview:btn];
+//        UIButton * btn = [[UIButton alloc] init];
+//        btn.tag = i + 10000;
+//        [btn addTarget:self action:@selector(onPinCheckBtnEd:) forControlEvents:UIControlEventTouchUpInside];
+//        [self.photoImageView addSubview:btn];
 
         i += 1;
     }
@@ -107,6 +107,7 @@
     {
         self.onPinClicked(@{
                             @"index": @(btn.tag - 10000),
+                            @"target": self.reactTag
                             });
     }
 }
@@ -124,7 +125,7 @@
     {
         UIImageView * view2 = [self.photoImageView viewWithTag:i + 30000];
         UILabel * lbl2 = [self.photoImageView viewWithTag:i + 20000];
-        UIButton * btn = [self.photoImageView viewWithTag:i + 10000];
+//        UIButton * btn = [self.photoImageView viewWithTag:i + 10000];
         
         CGPoint cp2 = CGPointMake([dict[@"x"] floatValue], [dict[@"y"] floatValue]);
         view2.frame = CGRectMake(cp2.x - (width / self.zoomScale) / 2, cp2.y - height / self.zoomScale, width / self.zoomScale, height / self.zoomScale);
@@ -136,7 +137,7 @@
         lbl2.textAlignment = NSTextAlignmentCenter;
         lbl2.text = dict[@"label"];
         
-        btn.frame = CGRectMake(cp2.x - (width / self.zoomScale) / 2, cp2.y - height / self.zoomScale, width / self.zoomScale, height / self.zoomScale);
+//        btn.frame = CGRectMake(cp2.x - (width / self.zoomScale) / 2, cp2.y - height / self.zoomScale, width / self.zoomScale, height / self.zoomScale);
         
         i += 1;
     }
@@ -203,20 +204,61 @@
     // Translate touch location to image view location
     CGFloat touchX = [touch locationInView:imageView].x;
     CGFloat touchY = [touch locationInView:imageView].y;
+    CGFloat originalTouchX = touchX;
+    CGFloat originalTouchY = touchY;
     touchX *= 1/self.zoomScale;
     touchY *= 1/self.zoomScale;
     touchX += self.contentOffset.x;
     touchY += self.contentOffset.y;
     
-    if (_onPhotoViewerTap) {
-        _onPhotoViewerTap(@{
-                            @"point": @{
-                                    @"x": @(touchX),
-                                    @"y": @(touchY),
-                                    },
-                            @"target": self.reactTag
-                            });
+    int activePinId = -1;
+    int i = 0;
+    for (NSDictionary * dict in _pins)
+    {
+        UIImageView * view2 = [self.photoImageView viewWithTag:i + 30000];
+        UILabel * lbl2 = [self.photoImageView viewWithTag:i + 20000];
+        
+        NSLog(@"%lf %lf %lf, %lf", view2.frame.origin.x, view2.frame.origin.y, view2.frame.size.width, view2.frame.size.height);
+        
+        if (originalTouchX > view2.frame.origin.x
+            && originalTouchX < view2.frame.origin.x + view2.frame.size.width
+            && originalTouchY > view2.frame.origin.y
+            && originalTouchY < view2.frame.origin.y + view2.frame.size.height)
+        {
+            activePinId = i;
+        }
+        //        UIButton * btn = [self.photoImageView viewWithTag:i + 10000];
+        //        btn.frame = CGRectMake(cp2.x - (width / self.zoomScale) / 2, cp2.y - height / self.zoomScale, width / self.zoomScale, height / self.zoomScale);
+        
+        i += 1;
     }
+
+    
+    if (_onPhotoViewerTap) {
+        if (activePinId != -1)
+        {
+            _onPhotoViewerTap(@{
+                                @"point": @{
+                                        @"x": @(touchX),
+                                        @"y": @(touchY),
+                                        },
+                                @"target": self.reactTag,
+                                @"activePinId": @(activePinId)
+                                });
+        }
+        else
+        {
+            _onPhotoViewerTap(@{
+                                @"point": @{
+                                        @"x": @(touchX),
+                                        @"y": @(touchY),
+                                        },
+                                @"target": self.reactTag
+                                });
+        }
+    }
+    
+    NSLog(@"%lf %lf", touchX, touchY);
 }
 
 - (void)imageView:(UIImageView *)imageView doubleTapDetected:(UITouch *)touch {
