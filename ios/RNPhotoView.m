@@ -115,8 +115,8 @@
 
 -(void)refreshPins
 {
-    int width = 24 + 48 * self.zoomScale;
-    int height = 30 + 60 * self.zoomScale;
+    int width = 12 + 48 * self.zoomScale;
+    int height = 15 + 60 * self.zoomScale;
     int height_lbl = 25 + 50 * self.zoomScale;
     int font_size = 13 + 6 / self.zoomScale;
     
@@ -196,6 +196,15 @@
         [self zoomToRect:CGRectMake(touchPoint.x - xsize/2, touchPoint.y - ysize/2, xsize, ysize) animated:YES];
     }
 }
+
+
+
+
+
+
+
+
+
 
 #pragma mark - MWTapDetectingImageViewDelegate
 
@@ -458,6 +467,34 @@
         [self refreshPins];
     });
 }
+
+
+
+- (void)setActivePin:(NSInteger)index
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        _activePin = index - 1;
+        if (_activePin >= 0)
+        {
+            if (_pins.count > _activePin)
+            {
+                CGFloat newZoomScale = ((self.maximumZoomScale + self.minimumZoomScale) / 2);
+                CGFloat xsize = self.bounds.size.width / newZoomScale;
+                CGFloat ysize = self.bounds.size.height / newZoomScale;
+                NSDictionary * pin = _pins[_activePin];
+                [self zoomToRect:
+                 CGRectMake(
+                            [pin[@"x"] floatValue] - xsize/2,
+                            [pin[@"y"] floatValue] - ysize/2,
+                            xsize,
+                            ysize
+                            ) animated:YES];
+            }
+        }
+    });
+}
+
 
 
 - (void)setSource:(NSDictionary *)source {
