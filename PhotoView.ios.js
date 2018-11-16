@@ -34,6 +34,7 @@ export default class PhotoView extends Component {
         onViewTap: PropTypes.func,
         onScale: PropTypes.func,
         onPinClick: PropTypes.func,
+        activePin: PropTypes.number,
         showsHorizontalScrollIndicator: PropTypes.bool,
         showsVerticalScrollIndicator: PropTypes.bool,
         ...ViewPropTypes
@@ -52,7 +53,7 @@ export default class PhotoView extends Component {
         }
 
         if (source && source.uri) {
-            var {onLoadStart, onLoad, onLoadEnd, onProgress, onTap, onViewTap, onScale, onPinClick, pins, ...props} = this.props;
+            var {onLoadStart, onLoad, onLoadEnd, onProgress, onTap, onViewTap, onScale, onPinClick, pins, activePin, ...props} = this.props;
 
             var nativeProps = {
                 onPhotoViewerLoadStart: onLoadStart,
@@ -66,6 +67,7 @@ export default class PhotoView extends Component {
                 ...props,
                 src: source,
                 pins: pins || [],
+                activePin: activePin || -1,
                 loadingIndicatorSrc: loadingIndicatorSource ? loadingIndicatorSource.uri : null,
             };
 
@@ -87,6 +89,7 @@ var cfg = {
         src: true,
         loadingIndicatorSrc: true,
         pins: true,
+        activePin: true,
         onPinClicked: true,
     }
 };
