@@ -12,7 +12,7 @@ RCT_EXPORT_MODULE()
 RCT_REMAP_VIEW_PROPERTY(src, source, NSDictionary)
 RCT_EXPORT_VIEW_PROPERTY(loadingIndicatorSrc, NSString)
 RCT_EXPORT_VIEW_PROPERTY(pins, NSArray)
-RCT_EXPORT_VIEW_PROPERTY(activePinId, NSInteger)
+RCT_EXPORT_VIEW_PROPERTY(activePin, NSInteger)
 
 RCT_REMAP_VIEW_PROPERTY(maximumZoomScale, maxZoomScale, CGFloat)
 RCT_REMAP_VIEW_PROPERTY(minimumZoomScale, minZoomScale, CGFloat)
