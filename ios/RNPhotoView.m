@@ -127,9 +127,19 @@
         UILabel * lbl2 = [self.photoImageView viewWithTag:i + 20000];
 //        UIButton * btn = [self.photoImageView viewWithTag:i + 10000];
         
+        NSString * color_label = @"g_d";
+        if ([dict[@"color"] isEqualToString:@"green"]) { color_label = @"g_g"; }
+        else if ([dict[@"color"] isEqualToString:@"red"]) { color_label = @"g_r"; }
+        else if ([dict[@"color"] isEqualToString:@"yellow"]) { color_label = @"g_y"; }
+        else if ([dict[@"color"] isEqualToString:@"gray"]) { color_label = @"g_d"; }
+        else if ([dict[@"color"] isEqualToString:@"green_sq"]) { color_label = @"s_g"; }
+        else if ([dict[@"color"] isEqualToString:@"red_sq"]) { color_label = @"s_r"; }
+        else if ([dict[@"color"] isEqualToString:@"yellow_sq"]) { color_label = @"s_y"; }
+        else if ([dict[@"color"] isEqualToString:@"gray_sq"]) { color_label = @"s_d"; }
+
         CGPoint cp2 = CGPointMake([dict[@"x"] floatValue], [dict[@"y"] floatValue]);
         view2.frame = CGRectMake(cp2.x - (width / self.zoomScale) / 2, cp2.y - height / self.zoomScale, width / self.zoomScale, height / self.zoomScale);
-        view2.image = [UIImage imageNamed: [NSString stringWithFormat:@"ic_map_annotation_%@_%@.png", dict[@"color"], dict[@"label"] ? @"o" : @"n"]];
+        view2.image = [UIImage imageNamed: [NSString stringWithFormat:@"p_%@.png", color_label]];
         
         lbl2.frame = CGRectMake(cp2.x - (width / self.zoomScale) / 2, cp2.y - height / self.zoomScale, width / self.zoomScale, height_lbl / self.zoomScale);
         lbl2.font = [UIFont systemFontOfSize:font_size];
