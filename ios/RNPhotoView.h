@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSArray *pins;
 @property (nonatomic, strong) NSString *loadingIndicatorSrc;
 @property (nonatomic, assign) NSInteger scale;
+@property (nonatomic, assign) NSInteger activePin;
 @property (nonatomic, assign) CGFloat minZoomScale;
 @property (nonatomic, assign) CGFloat maxZoomScale;
 
