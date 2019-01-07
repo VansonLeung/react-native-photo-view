@@ -502,6 +502,17 @@
                             ) animated:YES];
             }
         }
+        
+        if (_onPhotoViewerTap) {
+            if (_activePin != -1)
+            {
+                _onPhotoViewerTap(@{
+                                    @"target": self.reactTag,
+                                    @"activePinId": @(_activePin)
+                                    });
+            }
+        }
+        
     });
 }
 
@@ -607,7 +618,7 @@
     _maxZoomScale = 3.0;
     
     // Setup
-    self.backgroundColor = [UIColor blackColor];
+    self.backgroundColor = [UIColor colorWithRed:245.0f/255.0f green:245.0f/255.0f blue:245.0f/255.0f alpha:1.0f];
     self.delegate = self;
     self.decelerationRate = UIScrollViewDecelerationRateFast;
     self.showsVerticalScrollIndicator = YES;
@@ -617,12 +628,12 @@
     _tapView = [[MWTapDetectingView alloc] initWithFrame:self.bounds];
     _tapView.tapDelegate = self;
     _tapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    _tapView.backgroundColor = [UIColor blackColor];
+    _tapView.backgroundColor = [UIColor colorWithRed:245.0f/255.0f green:245.0f/255.0f blue:245.0f/255.0f alpha:1.0f];
     [self addSubview:_tapView];
     
     // Image view
     _photoImageView = [[MWTapDetectingImageView alloc] initWithFrame:self.bounds];
-    _photoImageView.backgroundColor = [UIColor blackColor];
+    _photoImageView.backgroundColor = [UIColor colorWithRed:245.0f/255.0f green:245.0f/255.0f blue:245.0f/255.0f alpha:1.0f];
     _photoImageView.contentMode = UIViewContentModeCenter;
     _photoImageView.tapDelegate = self;
     [self addSubview:_photoImageView];
