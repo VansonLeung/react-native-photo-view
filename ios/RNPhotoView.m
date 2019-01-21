@@ -16,6 +16,8 @@
 @property (nonatomic, strong) MWTapDetectingView *tapView;
 @property (nonatomic, strong) UIImageView *loadingImageView;
 
+@property (nonatomic, readwrite) Boolean isInitialZoomIn;
+
 #pragma mark - Data
 
 @property (nonatomic, strong) UIImage *image;
@@ -210,7 +212,21 @@
 
 
 
-
+- (void) zoomToRect:(CGRect)rect animated:(BOOL)animated
+{
+    if (!self.isInitialZoomIn)
+    {
+        self.isInitialZoomIn = true;
+        NSLog(@"%lf", self.photoImageView.frame.origin.y);
+        rect.origin.y -= self.photoImageView.frame.origin.y * 2;
+        rect.origin.y -= [UIApplication sharedApplication].statusBarFrame.size.height * 2;
+        [super zoomToRect:rect animated:animated];
+    }
+    else
+    {
+        [super zoomToRect:rect animated:animated];
+    }
+}
 
 
 
@@ -393,6 +409,7 @@
     // Layout
     [self setNeedsLayout];
     
+    [self setZoomScale:self.minimumZoomScale animated:YES];
 }
 
 #pragma mark - Layout
